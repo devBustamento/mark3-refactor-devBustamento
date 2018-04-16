@@ -11,11 +11,9 @@ namespace RefactorKata
             var cmd = new SqlConnection("Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;").CreateCommand();
             cmd.CommandText = "select * from Products";
 
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            while (cmd.ExecuteReader().Read())
             {
-                var prod = new Product { name = reader["Name"].ToString() };
+                var prod = new Product { name = cmd.ExecuteReader()["Name"].ToString() };
                 new List<Product>().Add(prod);
             }
 
