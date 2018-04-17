@@ -8,22 +8,25 @@ namespace RefactorKata
     {
         static void Main(string[] args)
         {
-            List<Product> products = new List<Product>();
+            var products = new List<Product>();
 
             using (var connection = new SqlConnection("Server=.;Database=myDataBase;User Id=myUsername;Password = myPassword;"))
-            { //usingusingusing
-                var cmd = connection.CreateCommand();
+            {
+                var cmd = connection.CreateCommand();//is there a good way to combine this?
                 cmd.CommandText = "select * from Products";
 
                 var reader = cmd.ExecuteReader();
-
                 while (reader.Read())
-                { products.Add(new Product { Name = reader["Name"].ToString() }); }
+                { //can this be inline, or should it be stubbed out like it is?
+                    products.Add(new Product {Name = reader["Name"].ToString()} ); //is this to much on the concise side?? 
+                }
             }
 
             Console.WriteLine("Products Loaded!");
-            foreach (var Product in products)
-            { Console.WriteLine(Product.Name); }
+            foreach (var Product in products)//loops best practice & should "Product" be "product" due to scope?
+            {
+                Console.WriteLine(Product.Name);
+            }
         }
     }
 }
